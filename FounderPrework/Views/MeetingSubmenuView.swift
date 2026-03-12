@@ -61,11 +61,23 @@ struct MeetingSubmenuView: View {
             }
         }
         
-        if !(meeting.memoStatus == .ready && meeting.memoStatus == .inProgress) {
-            Button("Retry") {
-                onCreateMemo(meeting)
+        Group {
+            switch meeting.memoStatus {
+            case .notStarted:
+                EmptyView()
+            case .inProgress:
+                EmptyView()
+            case .ready:
+                Button("Retry") {
+                    onCreateMemo(meeting)
+                }
+                .font(.caption)
+            case .error(let message):
+                Button("Retry") {
+                    onCreateMemo(meeting)
+                }
+                .font(.caption)
             }
-            .font(.caption)
         }
     }
     
